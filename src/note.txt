@@ -1,0 +1,4 @@
+articals => star 
+
+user => register login edite deleteAccount logout => done
+done for articals => showAll add delete edite ShowOne
