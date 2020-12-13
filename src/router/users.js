@@ -82,8 +82,7 @@ res.send(e)
 })
 
 router.post('/favorite',auth,async(req,res)=>{
-    const articalId = req.params.id
-    Artical.findById(articalId).then((artical)=>{
+    Artical.findById(req.params.id).then((artical)=>{
     res.send({ status:1, data:artical, err:''})
     })
     .catch(e=>{

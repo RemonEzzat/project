@@ -19,24 +19,17 @@ try{
 })
 
 router.get('/articals',async(req,res)=>{
-      await Artical.find({}).then((articals)=>{
-          res.status(200).send(
-              {
-                  status:1,
-                  data:articals
-              }   
-          )
-      }).catch(e=>res.send(
-          {
-              status:0,
-              data:e
-          }
-          ))
+      await Artical.find(function(err, foundArticles){
+        if (!err) {
+          res.send(foundArticles);
+        } else {
+          res.send(err);
+        }
+      });
   })
 
-  router.get('/artical/:id',(req,res)=>{
-    const articalID = req.params.id
-    Artical.findById(articalID).then((artical)=>{
+  router.get('/articals/:id',(req,res)=>{
+    Artical.findById(req.params.id).then((artical)=>{
     res.send({ status:1, data:artical, err:''})
     })
     .catch(e=>{
@@ -45,7 +38,7 @@ router.get('/articals',async(req,res)=>{
 })
 
   router.patch('/edite/:id',auth,async(req,res)=>{
-    const data = req.body
+     req.body
     const keys = Object.keys(req.body) 
     console.log(keys)
     const allowed =['title','content']
@@ -62,6 +55,16 @@ try{
 
     }
   })
+  router.delete("/articles",(req, res)=>{
+
+    Artical.deleteMany(function(err){
+      if (!err){
+        res.send("Successfully deleted all articles.");
+      } else {
+        res.send(err);
+      }
+    });
+  });
 
  router.delete('/delete:articaltitle',auth,(req,res)=>{
     Article.deleteOne(
